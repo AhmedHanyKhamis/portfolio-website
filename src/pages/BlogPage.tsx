@@ -12,58 +12,58 @@ const BlogPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   // Get all unique tags from blog posts
   const allTags = [...new Set(posts.flatMap(post => post.tags))].sort();
-  
+
   useEffect(() => {
     // Get blog posts from Firestore
     getItems([where('published', '==', true)]);
   }, [getItems]);
-  
+
   useEffect(() => {
     // Filter blog posts based on search term and selected tag
     let filtered = [...posts];
-    
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(post => 
-        post.title.toLowerCase().includes(term) || 
+      filtered = filtered.filter(post =>
+        post.title.toLowerCase().includes(term) ||
         post.content.toLowerCase().includes(term) ||
         post.tags.some(tag => tag.toLowerCase().includes(term))
       );
     }
-    
+
     if (selectedTag) {
-      filtered = filtered.filter(post => 
+      filtered = filtered.filter(post =>
         post.tags.includes(selectedTag)
       );
     }
-    
+
     // Sort by date (newest first)
     filtered.sort((a, b) => {
       const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
       const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
       return dateB.getTime() - dateA.getTime();
     });
-    
+
     setFilteredPosts(filtered);
   }, [posts, searchTerm, selectedTag]);
-  
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-  
+
   const handleTagClick = (tag: string) => {
     setSelectedTag(prevTag => prevTag === tag ? null : tag);
   };
-  
+
   const handlePostClick = (postId: string | undefined) => {
     if (postId) {
       navigate(`/blog/${postId}`);
     }
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
@@ -72,7 +72,7 @@ const BlogPage: React.FC = () => {
           Thoughts, stories, and ideas about web development, design, and technology.
         </p>
       </div>
-      
+
       {/* Search and filter section */}
       <div className="mb-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
@@ -88,7 +88,7 @@ const BlogPage: React.FC = () => {
               onChange={handleSearchChange}
             />
           </div>
-          
+
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             {allTags.map(tag => (
               <button
@@ -114,7 +114,7 @@ const BlogPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Blog posts grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -138,9 +138,9 @@ const BlogPage: React.FC = () => {
       ) : filteredPosts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPosts.map(post => (
-            <BlogCard 
-              key={post.id} 
-              post={post} 
+            <BlogCard
+              key={post.id}
+              post={post}
               onClick={() => handlePostClick(post.id)}
             />
           ))}

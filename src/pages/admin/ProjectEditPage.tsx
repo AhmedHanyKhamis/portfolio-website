@@ -13,12 +13,12 @@ const ProjectEditPage: React.FC = () => {
   const { getItem, updateItem, loading } = useFirestore<Project>('projects');
   const [project, setProject] = useState<Project | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
-  
+
   // Redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  
+
   useEffect(() => {
     const fetchProject = async () => {
       if (projectId) {
@@ -26,22 +26,22 @@ const ProjectEditPage: React.FC = () => {
         setProject(projectData);
       }
     };
-    
+
     fetchProject();
   }, [projectId, getItem]);
-  
+
   const handleSubmit = async (data: Partial<Project>) => {
     if (projectId) {
       setSubmitLoading(true);
       const success = await updateItem(projectId, data);
       setSubmitLoading(false);
-      
+
       if (success) {
         navigate('/admin/projects');
       }
     }
   };
-  
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -60,7 +60,7 @@ const ProjectEditPage: React.FC = () => {
       </div>
     );
   }
-  
+
   if (!project && !loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -72,8 +72,8 @@ const ProjectEditPage: React.FC = () => {
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               The project you're trying to edit doesn't exist or has been deleted.
             </p>
-            <Link 
-              to="/admin/projects" 
+            <Link
+              to="/admin/projects"
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
             >
               <ArrowLeft size={18} className="mr-1" /> Back to Projects
@@ -83,24 +83,24 @@ const ProjectEditPage: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
-          <Link 
-            to="/admin/projects" 
+          <Link
+            to="/admin/projects"
             className="inline-flex items-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
           >
             <ArrowLeft size={18} className="mr-1" /> Back to Projects
           </Link>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
             Edit Project
           </h1>
-          
+
           <ProjectForm
             project={project || undefined}
             onSubmit={handleSubmit}

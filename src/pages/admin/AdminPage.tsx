@@ -7,12 +7,12 @@ import Button from '../../components/ui/Button';
 const AdminPage: React.FC = () => {
   const { currentUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'projects' | 'blog'>('projects');
-  
+
   // Redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex justify-between items-center mb-6">
@@ -36,7 +36,7 @@ const AdminPage: React.FC = () => {
           )}
         </div>
       </div>
-      
+
       <div className="mb-6">
         <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="flex -mb-px">
@@ -69,7 +69,7 @@ const AdminPage: React.FC = () => {
           </nav>
         </div>
       </div>
-      
+
       {activeTab === 'projects' ? (
         <Link to="/admin/projects" className="block">
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">

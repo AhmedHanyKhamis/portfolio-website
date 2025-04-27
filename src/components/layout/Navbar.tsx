@@ -39,8 +39,8 @@ const Navbar: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className="text-2xl font-bold text-blue-600 dark:text-blue-400"
               onClick={closeMenu}
             >
@@ -55,10 +55,10 @@ const Navbar: React.FC = () => {
                 <NavLink
                   key={link.path}
                   to={link.path}
-                  className={({ isActive }) => 
+                  className={({ isActive }) =>
                     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive 
-                        ? 'text-blue-600 dark:text-blue-400' 
+                      isActive
+                        ? 'text-blue-600 dark:text-blue-400'
                         : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
                     }`
                   }
@@ -69,10 +69,10 @@ const Navbar: React.FC = () => {
               {currentUser && (
                 <NavLink
                   to="/admin"
-                  className={({ isActive }) => 
+                  className={({ isActive }) =>
                     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive 
-                        ? 'text-blue-600 dark:text-blue-400' 
+                      isActive
+                        ? 'text-blue-600 dark:text-blue-400'
                         : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
                     }`
                   }
@@ -81,8 +81,8 @@ const Navbar: React.FC = () => {
                 </NavLink>
               )}
             </div>
-            
-            <button 
+
+            <button
               onClick={toggleTheme}
               className="p-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden">
-            <button 
+            <button
               onClick={toggleTheme}
               className="p-2 mr-2 rounded-full text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
@@ -142,10 +142,10 @@ const Navbar: React.FC = () => {
               <NavLink
                 key={link.path}
                 to={link.path}
-                className={({ isActive }) => 
+                className={({ isActive }) =>
                   `block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive 
-                      ? 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-gray-800' 
+                    isActive
+                      ? 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-gray-800'
                       : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'
                   }`
                 }
@@ -157,10 +157,10 @@ const Navbar: React.FC = () => {
             {currentUser && (
               <NavLink
                 to="/admin"
-                className={({ isActive }) => 
+                className={({ isActive }) =>
                   `block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive 
-                      ? 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-gray-800' 
+                    isActive
+                      ? 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-gray-800'
                       : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'
                   }`
                 }

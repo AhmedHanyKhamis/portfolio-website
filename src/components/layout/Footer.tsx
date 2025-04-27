@@ -3,7 +3,7 @@ import { Github, Linkedin, Mail, Twitter } from 'lucide-react';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <footer className="bg-white dark:bg-gray-900 mt-auto py-8 border-t border-gray-200 dark:border-gray-800">
       <div className="container mx-auto px-4">
@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
               © {currentYear} Your Name. All rights reserved.
             </p>
           </div>
-          
+
           <div className="flex space-x-4">
             <a
               href="https://github.com/yourusername"

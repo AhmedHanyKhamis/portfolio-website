@@ -12,23 +12,23 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  
+
   // Get redirect path from location state or default to home
   const from = location.state?.from?.pathname || '/admin';
-  
+
   // If already logged in, redirect to admin
   if (currentUser) {
     return <Navigate to="/admin" />;
   }
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       setError('Please enter both email and password');
       return;
     }
-    
+
     try {
       setError('');
       setLoading(true);
@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       setLoading(false);
     }
   };
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -53,14 +53,14 @@ const LoginPage: React.FC = () => {
             Sign in to access the admin dashboard
           </p>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           {error && (
             <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/30 text-red-600 dark:text-red-400 rounded-md p-3 text-sm">
               {error}
             </div>
           )}
-          
+
           <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
               label="Email address"
@@ -74,7 +74,7 @@ const LoginPage: React.FC = () => {
               placeholder="your.email@example.com"
               fullWidth
             />
-            
+
             <Input
               label="Password"
               type="password"
@@ -87,7 +87,7 @@ const LoginPage: React.FC = () => {
               placeholder="••••••••"
               fullWidth
             />
-            
+
             <div>
               <Button
                 type="submit"

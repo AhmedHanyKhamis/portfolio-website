@@ -10,16 +10,16 @@ const BlogAdmin: React.FC = () => {
   const { currentUser } = useAuth();
   const { items: posts, loading, getItems, deleteItem } = useFirestore<BlogPost>('blogPosts');
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   // Redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  
+
   useEffect(() => {
     getItems();
   }, [getItems]);
-  
+
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this blog post?')) {
       setIsDeleting(true);
@@ -27,7 +27,7 @@ const BlogAdmin: React.FC = () => {
       setIsDeleting(false);
     }
   };
-  
+
   // Format date for display
   const formatDate = (date: Date | string) => {
     if (typeof date === 'string') {
@@ -39,7 +39,7 @@ const BlogAdmin: React.FC = () => {
       day: 'numeric'
     }).format(date);
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex justify-between items-center mb-6">
@@ -52,7 +52,7 @@ const BlogAdmin: React.FC = () => {
           </Button>
         </Link>
       </div>
-      
+
       {loading ? (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
           <div className="animate-pulse p-4">

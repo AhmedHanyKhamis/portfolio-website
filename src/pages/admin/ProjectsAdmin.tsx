@@ -10,16 +10,16 @@ const ProjectsAdmin: React.FC = () => {
   const { currentUser } = useAuth();
   const { items: projects, loading, getItems, deleteItem } = useFirestore<Project>('projects');
   const [isDeleting, setIsDeleting] = useState(false);
-  
+
   // Redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  
+
   useEffect(() => {
     getItems();
   }, [getItems]);
-  
+
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
       setIsDeleting(true);
@@ -27,7 +27,7 @@ const ProjectsAdmin: React.FC = () => {
       setIsDeleting(false);
     }
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="flex justify-between items-center mb-6">
@@ -40,7 +40,7 @@ const ProjectsAdmin: React.FC = () => {
           </Button>
         </Link>
       </div>
-      
+
       {loading ? (
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
           <div className="animate-pulse p-4">

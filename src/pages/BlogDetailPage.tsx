@@ -9,7 +9,7 @@ const BlogDetailPage: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
   const { getItem, loading } = useFirestore<BlogPost>('blogPosts');
   const [post, setPost] = useState<BlogPost | null>(null);
-  
+
   useEffect(() => {
     const fetchPost = async () => {
       if (postId) {
@@ -17,10 +17,10 @@ const BlogDetailPage: React.FC = () => {
         setPost(postData);
       }
     };
-    
+
     fetchPost();
   }, [postId, getItem]);
-  
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -42,7 +42,7 @@ const BlogDetailPage: React.FC = () => {
       </div>
     );
   }
-  
+
   if (!post) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -62,7 +62,7 @@ const BlogDetailPage: React.FC = () => {
       </div>
     );
   }
-  
+
   // Format date for display
   const formatDate = (date: Date | string) => {
     if (typeof date === 'string') {
@@ -74,7 +74,7 @@ const BlogDetailPage: React.FC = () => {
       day: 'numeric'
     }).format(date);
   };
-  
+
   // Calculate read time (very basic estimation)
   const calculateReadTime = (content: string) => {
     const wordsPerMinute = 200;
@@ -82,22 +82,22 @@ const BlogDetailPage: React.FC = () => {
     const readTime = Math.ceil(wordCount / wordsPerMinute);
     return readTime > 0 ? readTime : 1; // Minimum 1 minute
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-3xl mx-auto">
-        <Link 
-          to="/blog" 
+        <Link
+          to="/blog"
           className="inline-flex items-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 mb-6 transition-colors"
         >
           <ArrowLeft size={18} className="mr-2" /> Back to Blog
         </Link>
-        
+
         <article>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             {post.title}
           </h1>
-          
+
           <div className="flex flex-wrap gap-2 mb-4">
             {post.tags.map((tag, index) => (
               <span
@@ -108,7 +108,7 @@ const BlogDetailPage: React.FC = () => {
               </span>
             ))}
           </div>
-          
+
           <div className="flex items-center text-gray-600 dark:text-gray-400 text-sm mb-8">
             <div className="flex items-center mr-4">
               <Calendar size={16} className="mr-1" />
@@ -119,17 +119,17 @@ const BlogDetailPage: React.FC = () => {
               <span>{calculateReadTime(post.content)} min read</span>
             </div>
           </div>
-          
+
           {post.imageUrl && (
             <div className="rounded-lg overflow-hidden mb-8 shadow-lg">
-              <img 
-                src={post.imageUrl} 
-                alt={post.title} 
+              <img
+                src={post.imageUrl}
+                alt={post.title}
                 className="w-full h-auto object-cover"
               />
             </div>
           )}
-          
+
           <div className="prose dark:prose-invert max-w-none mb-10">
             <div className="whitespace-pre-wrap">
               {post.content}

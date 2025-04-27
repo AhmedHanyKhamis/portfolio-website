@@ -12,51 +12,51 @@ const ProjectsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   // Get all unique tags from projects
   const allTags = [...new Set(projects.flatMap(project => project.tags))].sort();
-  
+
   useEffect(() => {
     // Get projects from Firestore
     getItems([where('published', '==', true)]);
   }, [getItems]);
-  
+
   useEffect(() => {
     // Filter projects based on search term and selected tag
     let filtered = [...projects];
-    
+
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(project => 
-        project.title.toLowerCase().includes(term) || 
+      filtered = filtered.filter(project =>
+        project.title.toLowerCase().includes(term) ||
         project.description.toLowerCase().includes(term) ||
         project.tags.some(tag => tag.toLowerCase().includes(term))
       );
     }
-    
+
     if (selectedTag) {
-      filtered = filtered.filter(project => 
+      filtered = filtered.filter(project =>
         project.tags.includes(selectedTag)
       );
     }
-    
+
     setFilteredProjects(filtered);
   }, [projects, searchTerm, selectedTag]);
-  
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
-  
+
   const handleTagClick = (tag: string) => {
     setSelectedTag(prevTag => prevTag === tag ? null : tag);
   };
-  
+
   const handleProjectClick = (projectId: string | undefined) => {
     if (projectId) {
       navigate(`/projects/${projectId}`);
     }
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="text-center mb-12">
@@ -65,7 +65,7 @@ const ProjectsPage: React.FC = () => {
           A showcase of my work and the projects I've built. Each project represents a unique challenge and solution.
         </p>
       </div>
-      
+
       {/* Search and filter section */}
       <div className="mb-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
@@ -81,7 +81,7 @@ const ProjectsPage: React.FC = () => {
               onChange={handleSearchChange}
             />
           </div>
-          
+
           <div className="flex flex-wrap gap-2 w-full md:w-auto">
             {allTags.map(tag => (
               <button
@@ -107,7 +107,7 @@ const ProjectsPage: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Projects grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -130,9 +130,9 @@ const ProjectsPage: React.FC = () => {
       ) : filteredProjects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map(project => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
+            <ProjectCard
+              key={project.id}
+              project={project}
               onClick={() => handleProjectClick(project.id)}
             />
           ))}

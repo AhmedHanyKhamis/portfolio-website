@@ -9,7 +9,7 @@ const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const { getItem, loading } = useFirestore<Project>('projects');
   const [project, setProject] = useState<Project | null>(null);
-  
+
   useEffect(() => {
     const fetchProject = async () => {
       if (projectId) {
@@ -17,10 +17,10 @@ const ProjectDetailPage: React.FC = () => {
         setProject(projectData);
       }
     };
-    
+
     fetchProject();
   }, [projectId, getItem]);
-  
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -38,7 +38,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
     );
   }
-  
+
   if (!project) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -58,7 +58,7 @@ const ProjectDetailPage: React.FC = () => {
       </div>
     );
   }
-  
+
   // Format date for display
   const formatDate = (date: Date | string) => {
     if (typeof date === 'string') {
@@ -70,21 +70,21 @@ const ProjectDetailPage: React.FC = () => {
       day: 'numeric'
     }).format(date);
   };
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="max-w-4xl mx-auto">
-        <Link 
-          to="/projects" 
+        <Link
+          to="/projects"
           className="inline-flex items-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 mb-6 transition-colors"
         >
           <ArrowLeft size={18} className="mr-2" /> Back to Projects
         </Link>
-        
+
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
           {project.title}
         </h1>
-        
+
         <div className="flex flex-wrap gap-2 mb-6">
           {project.tags.map((tag, index) => (
             <span
@@ -95,26 +95,26 @@ const ProjectDetailPage: React.FC = () => {
             </span>
           ))}
         </div>
-        
+
         <div className="mb-6 flex items-center text-gray-600 dark:text-gray-400 text-sm">
           <Calendar size={16} className="mr-1" />
           <span>{formatDate(project.createdAt)}</span>
         </div>
-        
+
         <div className="rounded-lg overflow-hidden mb-8 shadow-lg">
-          <img 
-            src={project.imageUrl} 
-            alt={project.title} 
+          <img
+            src={project.imageUrl}
+            alt={project.title}
             className="w-full h-auto object-cover"
           />
         </div>
-        
+
         <div className="prose dark:prose-invert max-w-none mb-8">
           <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
             {project.description}
           </p>
         </div>
-        
+
         <div className="flex flex-wrap gap-4 mt-8">
           {project.githubUrl && (
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
@@ -123,7 +123,7 @@ const ProjectDetailPage: React.FC = () => {
               </Button>
             </a>
           )}
-          
+
           {project.demoUrl && (
             <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
               <Button variant="primary">

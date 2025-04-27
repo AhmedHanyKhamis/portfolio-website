@@ -13,12 +13,12 @@ const BlogEditPage: React.FC = () => {
   const { getItem, updateItem, loading } = useFirestore<BlogPost>('blogPosts');
   const [post, setPost] = useState<BlogPost | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
-  
+
   // Redirect if not authenticated
   if (!currentUser) {
     return <Navigate to="/login" />;
   }
-  
+
   useEffect(() => {
     const fetchPost = async () => {
       if (postId) {
@@ -26,29 +26,29 @@ const BlogEditPage: React.FC = () => {
         setPost(postData);
       }
     };
-    
+
     fetchPost();
   }, [postId, getItem]);
-  
+
   const handleSubmit = async (data: Partial<BlogPost>) => {
     if (postId) {
       setSubmitLoading(true);
-      
+
       // Update the updatedAt date
       const postData = {
         ...data,
         updatedAt: new Date()
       };
-      
+
       const success = await updateItem(postId, postData);
       setSubmitLoading(false);
-      
+
       if (success) {
         navigate('/admin/blog');
       }
     }
   };
-  
+
   if (loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -67,7 +67,7 @@ const BlogEditPage: React.FC = () => {
       </div>
     );
   }
-  
+
   if (!post && !loading) {
     return (
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -79,8 +79,8 @@ const BlogEditPage: React.FC = () => {
             <p className="text-gray-500 dark:text-gray-400 mb-6">
               The post you're trying to edit doesn't exist or has been deleted.
             </p>
-            <Link 
-              to="/admin/blog" 
+            <Link
+              to="/admin/blog"
               className="inline-flex items-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
             >
               <ArrowLeft size={18} className="mr-1" /> Back to Blog Posts
@@ -90,19 +90,19 @@ const BlogEditPage: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6">
-          <Link 
-            to="/admin/blog" 
+          <Link
+            to="/admin/blog"
             className="inline-flex items-center text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
           >
             <ArrowLeft size={18} className="mr-1" /> Back to Blog Posts
           </Link>
         </div>
-        
+
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
           <BlogForm
             post={post || undefined}

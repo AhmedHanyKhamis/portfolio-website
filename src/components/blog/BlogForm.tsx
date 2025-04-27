@@ -18,7 +18,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
 }) => {
   const isEditing = !!post;
   const [previewMode, setPreviewMode] = useState(false);
-  
+
   const { register, handleSubmit, watch, formState: { errors } } = useForm<Partial<BlogPost>>({
     defaultValues: post || {
       title: '',
@@ -31,19 +31,19 @@ const BlogForm: React.FC<BlogFormProps> = ({
   });
 
   const watchContent = watch('content', '');
-  
+
   const processFormData = (data: Partial<BlogPost>) => {
     // Convert comma-separated tags string to array
     if (typeof data.tags === 'string') {
       data.tags = (data.tags as string).split(',').map(tag => tag.trim());
     }
-    
+
     // If excerpt is empty, generate from content
     if (!data.excerpt && data.content) {
       const contentText = data.content as string;
       data.excerpt = contentText.substring(0, 150) + (contentText.length > 150 ? '...' : '');
     }
-    
+
     onSubmit(data);
   };
 
@@ -54,15 +54,15 @@ const BlogForm: React.FC<BlogFormProps> = ({
           {isEditing ? 'Edit Post' : 'Create New Post'}
         </h2>
         <div className="flex space-x-2">
-          <Button 
-            variant={previewMode ? 'outline' : 'primary'} 
+          <Button
+            variant={previewMode ? 'outline' : 'primary'}
             size="sm"
             onClick={() => setPreviewMode(false)}
           >
             Edit
           </Button>
-          <Button 
-            variant={previewMode ? 'primary' : 'outline'} 
+          <Button
+            variant={previewMode ? 'primary' : 'outline'}
             size="sm"
             onClick={() => setPreviewMode(true)}
           >
@@ -75,18 +75,18 @@ const BlogForm: React.FC<BlogFormProps> = ({
         <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 prose dark:prose-invert max-w-none">
           <h1>{watch('title')}</h1>
           <div className="mb-6">
-            {typeof watch('tags') === 'string' ? 
+            {typeof watch('tags') === 'string' ?
               watch('tags').split(',').map((tag, index) => (
-                <span 
-                  key={index} 
+                <span
+                  key={index}
                   className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full px-3 py-1 text-xs mr-2"
                 >
                   {tag.trim()}
                 </span>
-              )) : 
+              )) :
               watch('tags')?.map((tag, index) => (
-                <span 
-                  key={index} 
+                <span
+                  key={index}
                   className="inline-block bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full px-3 py-1 text-xs mr-2"
                 >
                   {tag}
@@ -95,9 +95,9 @@ const BlogForm: React.FC<BlogFormProps> = ({
             }
           </div>
           {watch('imageUrl') && (
-            <img 
-              src={watch('imageUrl')} 
-              alt={watch('title')} 
+            <img
+              src={watch('imageUrl')}
+              alt={watch('title')}
               className="w-full h-64 object-cover rounded-lg mb-6"
             />
           )}
@@ -114,7 +114,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             {...register('title', { required: 'Title is required' })}
             error={errors.title?.message}
           />
-          
+
           <TextArea
             label="Content"
             placeholder="Write your post content here... Markdown is supported"
@@ -123,7 +123,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             {...register('content', { required: 'Content is required' })}
             error={errors.content?.message}
           />
-          
+
           <TextArea
             label="Excerpt (optional, will be generated from content if empty)"
             placeholder="A short description of your post"
@@ -132,7 +132,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             {...register('excerpt')}
             error={errors.excerpt?.message}
           />
-          
+
           <Input
             label="Featured Image URL (optional)"
             placeholder="https://example.com/image.jpg"
@@ -140,7 +140,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             {...register('imageUrl')}
             error={errors.imageUrl?.message}
           />
-          
+
           <Input
             label="Tags (comma separated)"
             placeholder="react, typescript, firebase"
@@ -148,7 +148,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
             {...register('tags', { required: 'At least one tag is required' })}
             error={errors.tags?.message}
           />
-          
+
           <div className="flex items-center">
             <input
               type="checkbox"
@@ -163,7 +163,7 @@ const BlogForm: React.FC<BlogFormProps> = ({
               Publish post
             </label>
           </div>
-          
+
           <div className="flex justify-end space-x-2 pt-4">
             <Button type="submit" disabled={isLoading}>
               {isLoading ? 'Loading...' : isEditing ? 'Update Post' : 'Create Post'}

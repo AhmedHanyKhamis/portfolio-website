@@ -33,7 +33,7 @@ function App() {
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:postId" element={<BlogDetailPage />} />
             {/* <Route path="/login" element={<LoginPage />} />  */}
-            
+
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/projects" element={<ProjectsAdmin />} />
@@ -42,12 +42,12 @@ function App() {
             <Route path="/admin/blog" element={<BlogAdmin />} />
             <Route path="/admin/blog/new" element={<BlogCreatePage />} />
             <Route path="/admin/blog/edit/:postId" element={<BlogEditPage />} />
-            
+
             {/* 404 Route */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Layout>
-        
+
         <ToastContainer position="bottom-right" />
       </Router>
     </AuthProvider>
