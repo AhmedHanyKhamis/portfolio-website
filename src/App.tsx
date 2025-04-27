@@ -11,7 +11,7 @@ import ProjectsPage from './pages/ProjectsPage';
 import ProjectDetailPage from './pages/ProjectDetailPage';
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
-import LoginPage from './pages/LoginPage';
+// import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/admin/AdminPage';
 import ProjectsAdmin from './pages/admin/ProjectsAdmin';
 import ProjectCreatePage from './pages/admin/ProjectCreatePage';
@@ -32,7 +32,7 @@ function App() {
             <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
             <Route path="/blog" element={<BlogPage />} />
             <Route path="/blog/:postId" element={<BlogDetailPage />} />
-            <Route path="/login" element={<LoginPage />} />
+            {/* <Route path="/login" element={<LoginPage />} />  */}
             
             {/* Admin Routes */}
             <Route path="/admin" element={<AdminPage />} />
