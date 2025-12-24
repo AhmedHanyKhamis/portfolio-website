@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import { Search, Filter, X, Tag } from 'lucide-react';
 import BlogCard from '../components/blog/BlogCard';
 import { BlogPost } from '../types';
 import { useJsonData } from '../hooks/useJsonData';
@@ -10,14 +10,14 @@ const BlogPage: React.FC = () => {
   const { items: posts, loading } = useJsonData<BlogPost>(blogPostsData as BlogPost[]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const navigate = useNavigate();
 
   // Get all unique tags from blog posts
   const allTags = [...new Set(posts.flatMap(post => post.tags))].sort();
 
   useEffect(() => {
-    // Filter blog posts based on search term and selected tag
+    // Filter blog posts based on search term and selected tags
     // Only show featured posts
     let filtered = posts.filter(post => post.featured);
 
@@ -30,21 +30,25 @@ const BlogPage: React.FC = () => {
       );
     }
 
-    if (selectedTag) {
+    if (selectedTags.length > 0) {
       filtered = filtered.filter(post =>
-        post.tags.includes(selectedTag)
+        selectedTags.some(tag => post.tags.includes(tag))
       );
     }
 
     setFilteredPosts(filtered);
-  }, [posts, searchTerm, selectedTag]);
+  }, [posts, searchTerm, selectedTags]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
   const handleTagClick = (tag: string) => {
-    setSelectedTag(prevTag => prevTag === tag ? null : tag);
+    setSelectedTags(prevTags => 
+      prevTags.includes(tag)
+        ? prevTags.filter(t => t !== tag)
+        : [...prevTags, tag]
+    );
   };
 
   const handlePostClick = (postId: string | undefined) => {
@@ -64,42 +68,78 @@ const BlogPage: React.FC = () => {
 
       {/* Search and filter section */}
       <div className="mb-10">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
-          <div className="relative w-full md:w-96">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search size={20} className="text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search posts..."
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          {/* Header */}
+          <div className="flex items-center gap-2 mb-6">
+            <Filter className="text-gray-600 dark:text-gray-400" size={20} />
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Filter Posts</h2>
+            {(searchTerm || selectedTags.length > 0) && (
+              <span className="ml-auto text-sm text-gray-500 dark:text-gray-400">
+                {filteredPosts.length} {filteredPosts.length === 1 ? 'result' : 'results'}
+              </span>
+            )}
           </div>
 
-          <div className="flex flex-wrap gap-2 w-full md:w-auto">
-            {allTags.map(tag => (
-              <button
-                key={tag}
-                onClick={() => handleTagClick(tag)}
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  selectedTag === tag
-                    ? 'bg-blue-600 text-white dark:bg-blue-500'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-            {selectedTag && (
-              <button
-                onClick={() => setSelectedTag(null)}
-                className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800"
-              >
-                Clear Filter
-              </button>
-            )}
+          {/* Search Bar */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Search
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Search size={20} className="text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search by title, content, or tags..."
+                className="pl-12 pr-4 py-3 w-full border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Tags Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <Tag size={16} className="inline mr-1.5" />
+              Filter by Tags
+            </label>
+            <div className="flex flex-wrap gap-2.5">
+              {allTags.map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => handleTagClick(tag)}
+                  className={`group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    selectedTags.includes(tag)
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30 dark:bg-blue-500 scale-105'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 hover:scale-105'
+                  }`}
+                >
+                  {tag}
+                  {selectedTags.includes(tag) && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                  )}
+                </button>
+              ))}
+              {selectedTags.length > 0 && (
+                <button
+                  onClick={() => setSelectedTags([])}
+                  className="px-4 py-2 rounded-lg text-sm font-medium bg-red-50 text-red-700 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50 transition-all duration-200 hover:scale-105 flex items-center gap-1.5"
+                >
+                  <X size={14} />
+                  Clear All ({selectedTags.length})
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
