@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Github, ExternalLink, Calendar } from 'lucide-react';
 import { Project } from '../types';
-import { useFirestore } from '../hooks/useFirestore';
+import { useJsonData } from '../hooks/useJsonData';
+import projectsData from '../data/projects.json';
 import Button from '../components/ui/Button';
 
 const ProjectDetailPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
-  const { getItem, loading } = useFirestore<Project>('projects');
+  const { getItem, loading } = useJsonData<Project>(projectsData as Project[]);
   const [project, setProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    const fetchProject = async () => {
-      if (projectId) {
-        const projectData = await getItem(projectId);
-        setProject(projectData);
-      }
-    };
-
-    fetchProject();
+    if (projectId) {
+      const projectData = getItem(projectId);
+      setProject(projectData);
+    }
   }, [projectId, getItem]);
 
   if (loading) {

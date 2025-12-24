@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import ProjectCard from '../components/projects/ProjectCard';
 import { Project } from '../types';
-import { useFirestore } from '../hooks/useFirestore';
-import { where } from 'firebase/firestore';
+import { useJsonData } from '../hooks/useJsonData';
+import projectsData from '../data/projects.json';
 
 const ProjectsPage: React.FC = () => {
-  const { items: projects, loading, getItems } = useFirestore<Project>('projects');
+  const { items: projects, loading } = useJsonData<Project>(projectsData as Project[]);
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -17,13 +17,9 @@ const ProjectsPage: React.FC = () => {
   const allTags = [...new Set(projects.flatMap(project => project.tags))].sort();
 
   useEffect(() => {
-    // Get projects from Firestore
-    getItems([where('published', '==', true)]);
-  }, [getItems]);
-
-  useEffect(() => {
     // Filter projects based on search term and selected tag
-    let filtered = [...projects];
+    // Only show featured projects
+    let filtered = projects.filter(project => project.featured);
 
     if (searchTerm) {
       const term = searchTerm.toLowerCase();

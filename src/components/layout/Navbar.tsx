@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { Menu, X, Moon, Sun } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
-import Button from '../ui/Button';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentUser, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -17,15 +13,6 @@ const Navbar: React.FC = () => {
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      closeMenu();
-    } catch (error) {
-      console.error('Failed to log out', error);
-    }
   };
 
   const navLinks = [
@@ -66,20 +53,6 @@ const Navbar: React.FC = () => {
                   {link.label}
                 </NavLink>
               ))}
-              {currentUser && (
-                <NavLink
-                  to="/admin"
-                  className={({ isActive }) =>
-                    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? 'text-blue-600 dark:text-blue-400'
-                        : 'text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400'
-                    }`
-                  }
-                >
-                  Admin
-                </NavLink>
-              )}
             </div>
 
             <button
@@ -93,20 +66,6 @@ const Navbar: React.FC = () => {
                 <Sun size={20} />
               )}
             </button>
-
-            {currentUser ? (
-              <Button variant="outline" size="sm" onClick={handleLogout}>
-                Logout
-              </Button>
-            ) : (
-              location.pathname !== '/login' && (
-                <Link to="/login">
-                  <Button variant="primary" size="sm">
-                    Login
-                  </Button>
-                </Link>
-              )
-            )}
           </div>
 
           {/* Mobile menu button */}
@@ -154,39 +113,6 @@ const Navbar: React.FC = () => {
                 {link.label}
               </NavLink>
             ))}
-            {currentUser && (
-              <NavLink
-                to="/admin"
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md text-base font-medium ${
-                    isActive
-                      ? 'text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-gray-800'
-                      : 'text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800'
-                  }`
-                }
-                onClick={closeMenu}
-              >
-                Admin
-              </NavLink>
-            )}
-            {currentUser ? (
-              <button
-                className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-800"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            ) : (
-              location.pathname !== '/login' && (
-                <Link
-                  to="/login"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-blue-600 bg-blue-50 hover:bg-blue-100 dark:text-blue-400 dark:bg-gray-800 dark:hover:bg-gray-700"
-                  onClick={closeMenu}
-                >
-                  Login
-                </Link>
-              )
-            )}
           </div>
         </div>
       )}

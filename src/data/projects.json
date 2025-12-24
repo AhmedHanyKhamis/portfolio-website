@@ -1,0 +1,36 @@
+[
+  {
+    "id": "1",
+    "title": "E-Commerce Platform",
+    "description": "A full-stack e-commerce platform built with React and Node.js. Features include user authentication, shopping cart, payment integration, and admin dashboard.",
+    "imageUrl": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800",
+    "githubUrl": "https://github.com/example/ecommerce",
+    "demoUrl": "https://ecommerce-demo.example.com",
+    "tags": ["React", "Node.js", "MongoDB", "Express"],
+    "featured": true,
+    "createdAt": "2024-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Task Management App",
+    "description": "A collaborative task management application with real-time updates. Built with React, Firebase, and Material-UI. Supports team collaboration, task assignments, and progress tracking.",
+    "imageUrl": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800",
+    "githubUrl": "https://github.com/example/taskmanager",
+    "demoUrl": "https://tasks-demo.example.com",
+    "tags": ["React", "Firebase", "Material-UI", "TypeScript"],
+    "featured": true,
+    "createdAt": "2024-02-20T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "Weather Dashboard",
+    "description": "A beautiful weather dashboard that displays current weather conditions and forecasts. Features include location-based weather, hourly forecasts, and weather maps.",
+    "imageUrl": "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800",
+    "githubUrl": "https://github.com/example/weather",
+    "demoUrl": "https://weather-demo.example.com",
+    "tags": ["React", "API", "Chart.js", "CSS"],
+    "featured": false,
+    "createdAt": "2024-03-10T00:00:00.000Z"
+  }
+]
+

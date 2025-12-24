@@ -19,16 +19,7 @@ export interface BlogPost {
   excerpt: string;
   imageUrl?: string;
   tags: string[];
-  published: boolean;
+  featured: boolean;
   createdAt: Date | string;
   updatedAt: Date | string;
-}
-
-// User type definition
-export interface User {
-  uid: string;
-  email: string;
-  displayName?: string;
-  photoURL?: string;
-  isAdmin?: boolean;
 }

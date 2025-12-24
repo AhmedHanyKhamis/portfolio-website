@@ -1,0 +1,34 @@
+{
+"name": "Ahmed Hany Khamis",
+"title": "Full Stack Developer",
+"description": "I build beautiful, responsive web applications with modern technologies. Passionate about creating elegant solutions to complex problems.",
+"about": [
+	"I'm a passionate Full Stack Developer with a love for creating efficient, user-friendly applications. With over 5 years of experience in web development, I specialize in React, Node.js, and modern frontend technologies.",
+	"My journey in programming started when I was in college, and since then, I've worked on a variety of projects, from small business websites to complex enterprise applications. I'm constantly learning and exploring new technologies to improve my skills.",
+	"I'm a passionate Full Stack Developer with a love for creating efficient, user-friendly applications. With over 5 years of experience in web development, I specialize in React, Node.js, and modern frontend technologies."
+],
+"skills": [
+	"React & React Native",
+	"Node.js & Express",
+	"TypeScript",
+	"Firebase & MongoDB",
+	"Tailwind CSS"
+],
+"interests": [
+	"Web Development",
+	"UI/UX Design",
+	"Mobile App Development",
+	"Open Source",
+	"Machine Learning"
+],
+"contact": {
+	"email": "ahmedhanykhmais@gmail.com",
+	"location": "Giza, Egypt",
+	"social": {
+	"github": "https://github.com/ahmedhanykhamis",
+	"linkedin": "https://linkedin.com/in/ahmedhanykhamiis"
+	}
+},
+"profileImage": "/src/assets/images/profile.png"
+}
+

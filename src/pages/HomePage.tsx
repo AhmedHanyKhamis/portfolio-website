@@ -2,8 +2,31 @@ import React from 'react';
 import { ArrowDown, Briefcase, Code, Mail, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button';
+import personalInfoData from '../data/personalInfo.json';
+import profileImage from '../assets/images/profile.png';
+
+interface PersonalInfo {
+  name: string;
+  title: string;
+  description: string;
+  about: string[];
+  skills: string[];
+  interests: string[];
+  contact: {
+    email: string;
+    phone: string;
+    location: string;
+    social: {
+      github: string;
+      linkedin: string;
+      twitter: string;
+    };
+  };
+  profileImage: string;
+}
 
 const HomePage: React.FC = () => {
+  const personalInfo = personalInfoData as PersonalInfo;
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -14,14 +37,13 @@ const HomePage: React.FC = () => {
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="w-full md:w-1/2 mb-10 md:mb-0">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 animate-fadeIn">
-                Hi, I'm <span className="text-blue-600 dark:text-blue-400">Your Name</span>
+                Hi, I'm <span className="text-blue-600 dark:text-blue-400">{personalInfo.name}</span>
               </h1>
               <h2 className="text-xl sm:text-2xl lg:text-3xl text-gray-700 dark:text-gray-300 mb-6 animate-fadeIn animation-delay-200">
-                Full Stack Developer
+                {personalInfo.title}
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-lg animate-fadeIn animation-delay-400">
-                I build beautiful, responsive web applications with modern technologies.
-                Passionate about creating elegant solutions to complex problems.
+                {personalInfo.description}
               </p>
               <div className="flex flex-wrap gap-4 animate-fadeIn animation-delay-600">
                 <Link to="/projects">
@@ -39,7 +61,7 @@ const HomePage: React.FC = () => {
             <div className="w-full md:w-1/2 flex justify-center">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-xl animate-fadeIn animation-delay-600">
                 <img
-                  src="https://images.pexels.com/photos/3772623/pexels-photo-3772623.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  src={profileImage}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -72,36 +94,26 @@ const HomePage: React.FC = () => {
               />
             </div>
             <div className="w-full md:w-1/2 md:pl-10">
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                I'm a passionate Full Stack Developer with a love for creating efficient,
-                user-friendly applications. With over 5 years of experience in web development,
-                I specialize in React, Node.js, and modern frontend technologies.
-              </p>
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
-                My journey in programming started when I was in college, and since then,
-                I've worked on a variety of projects, from small business websites to complex
-                enterprise applications. I'm constantly learning and exploring new technologies
-                to improve my skills.
-              </p>
+              {personalInfo.about.map((paragraph, index) => (
+                <p key={index} className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+                  {paragraph}
+                </p>
+              ))}
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Skills</h3>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
-                    <li>React & React Native</li>
-                    <li>Node.js & Express</li>
-                    <li>TypeScript</li>
-                    <li>Firebase & MongoDB</li>
-                    <li>Tailwind CSS</li>
+                    {personalInfo.skills.map((skill, index) => (
+                      <li key={index}>{skill}</li>
+                    ))}
                   </ul>
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Interests</h3>
                   <ul className="list-disc list-inside text-gray-600 dark:text-gray-400">
-                    <li>Web Development</li>
-                    <li>UI/UX Design</li>
-                    <li>Mobile App Development</li>
-                    <li>Open Source</li>
-                    <li>Machine Learning</li>
+                    {personalInfo.interests.map((interest, index) => (
+                      <li key={index}>{interest}</li>
+                    ))}
                   </ul>
                 </div>
               </div>

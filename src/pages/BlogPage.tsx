@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import BlogCard from '../components/blog/BlogCard';
 import { BlogPost } from '../types';
-import { useFirestore } from '../hooks/useFirestore';
-import { where } from 'firebase/firestore';
+import { useJsonData } from '../hooks/useJsonData';
+import blogPostsData from '../data/blogPosts.json';
 
 const BlogPage: React.FC = () => {
-  const { items: posts, loading, getItems } = useFirestore<BlogPost>('blogPosts');
+  const { items: posts, loading } = useJsonData<BlogPost>(blogPostsData as BlogPost[]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -17,13 +17,9 @@ const BlogPage: React.FC = () => {
   const allTags = [...new Set(posts.flatMap(post => post.tags))].sort();
 
   useEffect(() => {
-    // Get blog posts from Firestore
-    getItems([where('published', '==', true)]);
-  }, [getItems]);
-
-  useEffect(() => {
     // Filter blog posts based on search term and selected tag
-    let filtered = [...posts];
+    // Only show featured posts
+    let filtered = posts.filter(post => post.featured);
 
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
@@ -39,13 +35,6 @@ const BlogPage: React.FC = () => {
         post.tags.includes(selectedTag)
       );
     }
-
-    // Sort by date (newest first)
-    filtered.sort((a, b) => {
-      const dateA = a.createdAt instanceof Date ? a.createdAt : new Date(a.createdAt);
-      const dateB = b.createdAt instanceof Date ? b.createdAt : new Date(b.createdAt);
-      return dateB.getTime() - dateA.getTime();
-    });
 
     setFilteredPosts(filtered);
   }, [posts, searchTerm, selectedTag]);

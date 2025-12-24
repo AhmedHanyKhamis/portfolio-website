@@ -2,23 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { BlogPost } from '../types';
-import { useFirestore } from '../hooks/useFirestore';
+import { useJsonData } from '../hooks/useJsonData';
+import blogPostsData from '../data/blogPosts.json';
 import Button from '../components/ui/Button';
 
 const BlogDetailPage: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
-  const { getItem, loading } = useFirestore<BlogPost>('blogPosts');
+  const { getItem, loading } = useJsonData<BlogPost>(blogPostsData as BlogPost[]);
   const [post, setPost] = useState<BlogPost | null>(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
-      if (postId) {
-        const postData = await getItem(postId);
-        setPost(postData);
-      }
-    };
-
-    fetchPost();
+    if (postId) {
+      const postData = getItem(postId);
+      setPost(postData);
+    }
   }, [postId, getItem]);
 
   if (loading) {

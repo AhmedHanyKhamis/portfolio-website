@@ -1,0 +1,36 @@
+[
+  {
+    "id": "1",
+    "title": "Getting Started with React Hooks",
+    "content": "React Hooks revolutionized the way we write React components. In this post, we'll explore the most commonly used hooks and how they can simplify your code.\n\n## useState Hook\n\nThe useState hook allows you to add state to functional components. It returns a pair: the current state value and a function to update it.\n\n```javascript\nconst [count, setCount] = useState(0);\n```\n\n## useEffect Hook\n\nuseEffect lets you perform side effects in functional components. It's similar to componentDidMount, componentDidUpdate, and componentWillUnmount combined.\n\n```javascript\nuseEffect(() => {\n  document.title = `You clicked ${count} times`;\n}, [count]);\n```\n\n## Custom Hooks\n\nYou can create custom hooks to extract component logic into reusable functions. This makes your code more modular and easier to test.",
+    "excerpt": "Learn how to use React Hooks to write cleaner and more maintainable React components.",
+    "imageUrl": "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800",
+    "tags": ["React", "JavaScript", "Web Development"],
+    "featured": true,
+    "createdAt": "2024-01-10T00:00:00.000Z",
+    "updatedAt": "2024-01-10T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Building Responsive Layouts with Tailwind CSS",
+    "content": "Tailwind CSS is a utility-first CSS framework that makes it easy to build modern, responsive designs. In this tutorial, we'll cover the basics and show you how to create beautiful layouts.\n\n## Why Tailwind CSS?\n\nTailwind CSS provides low-level utility classes that let you build custom designs without writing custom CSS. This approach offers several advantages:\n\n- Faster development\n- Consistent design system\n- Easy to maintain\n- Highly customizable\n\n## Getting Started\n\nFirst, install Tailwind CSS in your project:\n\n```bash\nnpm install -D tailwindcss\nnpx tailwindcss init\n```\n\nThen configure your tailwind.config.js file and add the Tailwind directives to your CSS file.",
+    "excerpt": "Discover how to create beautiful, responsive layouts using Tailwind CSS utility classes.",
+    "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800",
+    "tags": ["CSS", "Tailwind", "Design"],
+    "featured": true,
+    "createdAt": "2024-02-05T00:00:00.000Z",
+    "updatedAt": "2024-02-05T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "TypeScript Best Practices",
+    "content": "TypeScript adds static type checking to JavaScript, making your code more robust and easier to maintain. Here are some best practices to follow:\n\n## Use Strict Mode\n\nAlways enable strict mode in your tsconfig.json:\n\n```json\n{\n  \"compilerOptions\": {\n    \"strict\": true\n  }\n}\n```\n\n## Prefer Interfaces for Object Shapes\n\nUse interfaces to define object shapes:\n\n```typescript\ninterface User {\n  id: string;\n  name: string;\n  email: string;\n}\n```\n\n## Avoid Using 'any'\n\nTry to avoid using the 'any' type. Instead, use 'unknown' or create proper types.\n\n## Use Type Guards\n\nType guards help TypeScript narrow down types:\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string';\n}\n```",
+    "excerpt": "Learn TypeScript best practices to write better, more maintainable code.",
+    "imageUrl": "https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800",
+    "tags": ["TypeScript", "JavaScript", "Programming"],
+    "featured": false,
+    "createdAt": "2024-03-01T00:00:00.000Z",
+    "updatedAt": "2024-03-01T00:00:00.000Z"
+  }
+]
+
