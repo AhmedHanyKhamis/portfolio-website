@@ -14,6 +14,10 @@ import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   const basename = import.meta.env.BASE_URL;
+  
+  if (import.meta.env.DEV) {
+    console.log('Base URL:', basename);
+  }
 
   return (
     <Router basename={basename}>
