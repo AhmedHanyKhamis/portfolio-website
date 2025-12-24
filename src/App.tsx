@@ -13,8 +13,10 @@ import BlogDetailPage from './pages/BlogDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
+  const basename = import.meta.env.BASE_URL;
+
   return (
-    <Router>
+    <Router basename={basename}>
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
