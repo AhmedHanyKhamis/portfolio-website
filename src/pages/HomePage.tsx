@@ -1,9 +1,13 @@
 import React from 'react';
 import { ArrowDown, Briefcase, Code, Mail, Send } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button';
+import ProjectCard from '../components/projects/ProjectCard';
 import personalInfoData from '../data/personalInfo.json';
+import projectsData from '../data/projects.json';
 import profileImage from '../assets/images/profile.png';
+import { Project } from '../types';
+import { useJsonData } from '../hooks/useJsonData';
 
 interface PersonalInfo {
   name: string;
@@ -27,6 +31,18 @@ interface PersonalInfo {
 
 const HomePage: React.FC = () => {
   const personalInfo = personalInfoData as PersonalInfo;
+  const { items: projects, loading: projectsLoading } = useJsonData<Project>(projectsData as Project[]);
+  const navigate = useNavigate();
+
+  // Get featured projects
+  const featuredProjects = projects.filter(project => project.featured).slice(0, 3);
+
+  const handleProjectClick = (projectId: string | undefined) => {
+    if (projectId) {
+      navigate(`/projects/${projectId}`);
+    }
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -138,25 +154,41 @@ const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Project cards will be fetched from Firebase in final implementation */}
-            {/* This is just a placeholder */}
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden transform transition-transform hover:-translate-y-1 hover:shadow-lg">
-                <div className="h-48 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-                <div className="p-6">
-                  <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
-                  <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
-                  <div className="flex space-x-2">
-                    <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
-                    <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+          {projectsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="bg-white dark:bg-gray-900 rounded-lg shadow-md overflow-hidden transform transition-transform hover:-translate-y-1 hover:shadow-lg">
+                  <div className="h-48 bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+                  <div className="p-6">
+                    <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-3"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
+                    <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2"></div>
+                    <div className="h-4 w-2/3 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-4"></div>
+                    <div className="flex space-x-2">
+                      <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                      <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : featuredProjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onClick={() => handleProjectClick(project.id)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-gray-600 dark:text-gray-400">
+                No featured projects available at the moment.
+              </p>
+            </div>
+          )}
 
           <div className="text-center mt-12">
             <Link to="/projects">
